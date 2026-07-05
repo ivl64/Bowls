@@ -524,8 +524,8 @@ function renderSched() {
     h += '<div class="meals-grid">';
     h += mealCell('b', m.b, gn, g.b, t);
     h += mealCell('l', m.l, gn, g.l, t);
-    // snack — only on training days (wed + sun)
-    var isTraining = (day.pk === 'wed' || day.pk === 'sun');
+    // snack — only on training days (Wed=idx2, Sun=idx6)
+    var isTraining = (idx === 2 || idx === 6);
     if (isTraining) {
       h += '<div class="mc snack-mc">';
       h += '<div class="mc-label">'+t.snack+' 🏋️</div>';
