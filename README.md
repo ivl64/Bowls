@@ -26,6 +26,7 @@ Built for German retail (REWE links included). Interface in Russian with a one-t
 3. On iPhone: Safari → Share → Add to Home Screen
 4. On Android: Chrome → ⋮ → Add to Home Screen
 No account, no internet required after the first open.
+
 Hosted on GH: https://ivl64.github.io/Bowls/
 
 ---
