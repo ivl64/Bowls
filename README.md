@@ -21,12 +21,13 @@ Built for German retail (REWE links included). Interface in Russian with a one-t
  
 ## Usage
  
-1. Download `bowls_week_plan.html`
+1. Download `index.html`
 2. Open in any browser — or share the file directly via Telegram / WhatsApp
 3. On iPhone: Safari → Share → Add to Home Screen
 4. On Android: Chrome → ⋮ → Add to Home Screen
 No account, no internet required after the first open.
- 
+
+Hosted on GH: https://ivl64.github.io/Bowls/
 ---
  
 ## Weekly Structure
