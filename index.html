@@ -2,629 +2,683 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1b1b19" media="(prefers-color-scheme: dark)">
-<title>Боулы — неделя</title>
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#181814" media="(prefers-color-scheme:dark)">
+<title>Боулы</title>
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+/* ── variables ── */
 :root{
   --bg:#fff;--bg2:#f5f4ef;--bg3:#eceae3;
   --c:#1b1b19;--c2:#58584f;--c3:#98978e;
   --brd:rgba(0,0,0,.09);
   --grn:#2c7d52;--grn-l:#e3f3eb;--grn-t:#1d5c3a;
-  --amb:#b86010;--amb-l:#fff0df;
-  --blu:#1a56a0;--blu-l:#e3edf9;
   --r:12px;
 }
 @media(prefers-color-scheme:dark){
   :root{
-    --bg:#1b1b19;--bg2:#232320;--bg3:#2c2c28;
-    --c:#f0f0e8;--c2:#a8a89e;--c3:#676760;
-    --brd:rgba(255,255,255,.09);
-    --grn:#4ab87a;--grn-l:#0e2b1b;--grn-t:#7dd4a5;
-    --amb:#ffa040;--amb-l:#2a1900;
-    --blu:#5b9be8;--blu-l:#0c1e38;
+    --bg:#181814;--bg2:#222220;--bg3:#2c2c28;
+    --c:#f0ede4;--c2:#a09890;--c3:#60594e;
+    --brd:rgba(255,255,255,.08);
+    --grn:#3fa86e;--grn-l:#0d2e1c;--grn-t:#7dd4a8;
   }
 }
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg2);color:var(--c);font-size:16px;line-height:1.5;min-height:100vh}
-.wrap{max-width:640px;margin:0 auto}
-
-/* HEADER */
-.hdr{background:var(--bg);border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:200;padding:0 16px}
-.hdr1{display:flex;align-items:center;gap:10px;padding:10px 0}
-.app-title{font-size:16px;font-weight:700;letter-spacing:-.3px;white-space:nowrap}
-.controls{display:flex;align-items:center;gap:8px;flex:1;justify-content:flex-end}
-.sw{display:flex;border:1.5px solid var(--brd);border-radius:8px;overflow:hidden}
-.sw-btn{padding:5px 11px;font-size:13px;font-weight:700;background:none;border:none;color:var(--c2);cursor:pointer;white-space:nowrap}
-.sw-btn.on{background:var(--grn);color:#fff}
-.meals-label{font-size:12px;color:var(--c3);white-space:nowrap}
-.tabs{display:flex;border-top:1px solid var(--brd)}
-.tab{flex:1;padding:10px;font-size:14px;font-weight:500;text-align:center;cursor:pointer;color:var(--c2);border-bottom:2.5px solid transparent}
+/* ── reset ── */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg);color:var(--c);font-size:14px;line-height:1.45}
+button{font-family:inherit;cursor:pointer;border:none;background:none}
+a{color:var(--grn);text-decoration:none}
+a:hover{text-decoration:underline}
+/* ── layout ── */
+.wrap{max-width:640px;margin:0 auto;padding-bottom:40px}
+.hdr{position:sticky;top:0;z-index:100;background:var(--bg);
+  border-bottom:1px solid var(--brd);padding:0 16px}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;padding:12px 0 8px}
+.app-title{font-size:17px;font-weight:700}
+.lang-btn{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;
+  background:var(--bg3);color:var(--c2)}
+.tabs{display:flex}
+.tab{flex:1;padding:10px 0;text-align:center;font-size:13px;font-weight:600;
+  color:var(--c3);border-bottom:2px solid transparent;transition:all .15s}
 .tab.on{color:var(--grn);border-bottom-color:var(--grn)}
-
-/* SCALE BANNER */
-.scale-banner{background:var(--amb-l);color:var(--amb);font-size:12px;font-weight:500;padding:7px 16px;margin:0 0 12px;border-radius:8px;border:1px solid rgba(184,96,16,.15)}
-
-/* VIEWS */
-.view{display:none;padding:12px 16px 60px}
+.view{display:none;padding:16px}
 .view.on{display:block}
-
-/* CARDS */
-.card{background:var(--bg);border-radius:var(--r);border:1px solid var(--brd);margin-bottom:12px;overflow:hidden}
-
-/* PREP CARDS */
-.ph{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--brd)}
-.ph-ico{font-size:20px}
-.ph-day{font-size:16px;font-weight:700}
-.ph-sub{font-size:13px;color:var(--c2)}
-.pb{padding:12px 16px}
-.ps-title{font-size:11px;font-weight:700;color:var(--c2);text-transform:uppercase;letter-spacing:.5px;margin:10px 0 5px}
-.ps-title:first-child{margin-top:0}
-.ps-step{font-size:13px;line-height:1.65;padding:1px 0;color:var(--c)}
-.shop-link-btn{display:block;width:100%;margin-top:12px;padding:11px 16px;background:var(--grn-l);color:var(--grn-t);border:1.5px solid rgba(44,125,82,.2);border-radius:8px;font-size:14px;font-weight:700;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.shop-link-btn:active{opacity:.75}
-
-/* DAY CARDS */
-.dh{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--brd);flex-wrap:wrap}
-.dh-name{font-size:16px;font-weight:700}
-.dh-carbs{font-size:12px;font-weight:500;background:var(--grn-l);color:var(--grn-t);padding:2px 9px;border-radius:100px;white-space:nowrap}
-.dh-note{font-size:12px;color:var(--c3);padding:7px 16px;background:var(--bg2);border-bottom:1px solid var(--brd)}
-.meals{display:grid}
-.meals.g1{grid-template-columns:1fr}
-.meals.g2{grid-template-columns:repeat(2,1fr)}
-.meals.g3{grid-template-columns:repeat(3,1fr)}
-@media(max-width:340px){.meals.g2,.meals.g3{grid-template-columns:1fr}}
-.mc{padding:11px 12px;border-right:1px solid var(--brd)}
-.mc:last-child{border-right:none}
-@media(max-width:340px){.mc{border-right:none;border-bottom:1px solid var(--brd)}.mc:last-child{border-bottom:none}}
-.m-lbl{font-size:10px;color:var(--c3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
-.m-base{font-size:13px;font-weight:700;margin-bottom:5px}
-.m-prot-row{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-bottom:5px}
-.m-prot{display:inline-block;font-size:11px;padding:2px 7px;border-radius:4px}
-.m-prot-amt{font-size:11px;font-weight:700;color:var(--c3)}
+/* ── cards ── */
+.card{background:var(--bg2);border:1px solid var(--brd);border-radius:var(--r);
+  padding:14px;margin-bottom:12px}
+.card-title{font-size:14px;font-weight:700;margin-bottom:2px}
+.card-sub{font-size:12px;color:var(--c3);margin-bottom:8px}
+/* ── macro chips ── */
+.macro-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.mchip{background:var(--bg3);border-radius:8px;padding:4px 10px;
+  font-size:11px;font-weight:600;color:var(--c2)}
+/* ── prep cards ── */
+.prep-card{background:var(--grn-l);border:1px solid var(--grn);
+  border-radius:var(--r);padding:14px;margin-bottom:12px}
+.prep-card .card-title{color:var(--grn-t)}
+.prep-card .card-sub{color:var(--grn)}
+.prep-steps{margin-top:8px;list-style:none}
+.prep-steps li{padding:3px 0;font-size:12px;color:var(--c2)}
+.prep-steps li::before{content:'• ';color:var(--grn)}
+.prep-buy{margin-top:6px;margin-bottom:2px;font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.4px;color:var(--grn-t)}
+.shop-link-btn{display:inline-block;margin-top:10px;padding:7px 14px;
+  border-radius:20px;background:var(--grn);color:#fff;font-size:12px;
+  font-weight:600;cursor:pointer;border:none;font-family:inherit}
+/* ── day card ── */
+.day-card{background:var(--bg2);border:1px solid var(--brd);
+  border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.day-hdr{padding:12px 14px 8px;border-bottom:1px solid var(--brd)}
+.day-name{font-size:15px;font-weight:700;margin-bottom:4px}
+.grain-line{font-size:12px;color:var(--c2);margin-bottom:3px}
+.grain-line b{color:var(--c)}
+.veg-row{display:flex;gap:5px;flex-wrap:wrap;margin:5px 0 3px}
+.vbadge{background:var(--grn-l);color:var(--grn-t);border-radius:6px;
+  padding:2px 7px;font-size:11px;font-weight:600}
+.thaw-note{font-size:11px;color:var(--c3);margin-top:2px}
+/* ── meals grid ── */
+.meals-grid{display:grid;grid-template-columns:1fr 1fr}
+.mc{padding:10px 11px;border-right:1px solid var(--brd);border-bottom:1px solid var(--brd)}
+.mc:nth-child(2n){border-right:none}
+.mc:nth-last-child(-n+2){border-bottom:none}
+.mc-label{font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.5px;color:var(--c3);margin-bottom:4px}
+.mc-grain{font-size:11px;color:var(--c2);margin-bottom:3px}
+.prow{display:flex;align-items:flex-start;gap:4px;margin-bottom:3px}
+.pb{display:inline-block;border-radius:5px;padding:2px 5px;
+  font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0}
 .pf{background:#E6F1FB;color:#0C447C}
 .ps{background:#E1F5EE;color:#085041}
 .pp{background:#FAEEDA;color:#633806}
-.pv{background:#EAF3DE;color:#27500A}
 .pm{background:#FAECE7;color:#4A1B0C}
 @media(prefers-color-scheme:dark){
-  .pf{background:#042C53;color:#85B7EB}.ps{background:#04342C;color:#5DCAA5}
-  .pp{background:#412402;color:#EF9F27}.pv{background:#173404;color:#97C459}
+  .pf{background:#042C53;color:#85B7EB}
+  .ps{background:#04342C;color:#5DCAA5}
+  .pp{background:#412402;color:#EF9F27}
   .pm{background:#4A1B0C;color:#F0997B}
 }
-.m-det{font-size:11px;color:var(--c2);line-height:1.5}
-.m-dr{font-size:11px;color:var(--c3);margin-top:6px;padding-top:6px;border-top:1px solid var(--brd)}
-
-/* DRESSINGS */
-.dr-toggle-btn{width:100%;background:var(--bg);border:1px solid var(--brd);border-radius:var(--r);padding:14px 16px;font-size:15px;font-weight:600;color:var(--c);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-.dr-body{display:none;background:var(--bg);border:1px solid var(--brd);border-top:none;border-radius:0 0 var(--r) var(--r)}
-.dr-body.on{display:block}
-.dr-row{display:grid;grid-template-columns:32px 1fr;gap:8px;padding:10px 14px;border-bottom:1px solid var(--brd);font-size:13px}
-.dr-row:last-child{border-bottom:none}
-.dr-n{font-weight:700;color:var(--grn)}
-.dr-txt{color:var(--c2);line-height:1.5}
-
-/* SHOPPING */
-.shop-top{margin-bottom:14px}
-.shop-filter{display:flex;border:1.5px solid var(--brd);border-radius:8px;overflow:hidden;margin-bottom:10px}
-.sf-btn{flex:1;padding:8px 6px;font-size:14px;font-weight:500;background:none;border:none;color:var(--c2);cursor:pointer;text-align:center}
-.sf-btn.on{background:var(--grn);color:#fff;font-weight:700}
-.shop-foot{display:flex;align-items:center;justify-content:space-between}
-.shop-prog{font-size:13px;color:var(--c3)}
-.shop-reset{font-size:13px;color:var(--c3);background:none;border:none;cursor:pointer;text-decoration:underline;padding:4px 0}
-.scat{margin-bottom:20px}
-.scat-h{font-size:12px;font-weight:700;color:var(--c2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;padding:0 2px}
-.slist{background:var(--bg);border-radius:var(--r);border:1px solid var(--brd);overflow:hidden}
-.si{display:flex;align-items:flex-start;gap:14px;padding:15px 16px;border-bottom:1px solid var(--brd);cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none}
+.pname{font-size:12px;font-weight:600;line-height:1.3}
+.pamt{font-size:11px;color:var(--c2)}
+.mc-dress{font-size:11px;color:var(--grn);font-weight:600;margin-top:3px}
+.mc-fat{font-size:10px;color:var(--c3);margin-top:2px}
+.mc-macro{font-size:10px;color:var(--c3);margin-top:3px;
+  border-top:1px solid var(--brd);padding-top:3px}
+/* snack cell */
+.snack-mc{background:var(--grn-l)}
+.snack-body{font-size:12px;color:var(--c2);line-height:1.55;margin:4px 0}
+/* rest day snack cell */
+.rest-mc{opacity:.45}
+.rest-note{font-size:12px;color:var(--c3);font-style:italic;margin:4px 0}
+/* ── collapsible ── */
+.coll-wrap{background:var(--bg2);border:1px solid var(--brd);
+  border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.coll-hdr{padding:12px 14px;display:flex;justify-content:space-between;
+  align-items:center;cursor:pointer}
+.coll-title{font-size:13px;font-weight:700}
+.coll-arr{font-size:12px;color:var(--c3);transition:transform .2s}
+.coll-arr.open{transform:rotate(180deg)}
+.coll-body{display:none;padding:0 14px 12px}
+.coll-body.open{display:block}
+.dress-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:4px}
+.dcard{background:var(--bg3);border-radius:8px;padding:8px 10px}
+.did{font-size:10px;font-weight:700;color:var(--grn);margin-bottom:2px}
+.dtext{font-size:11px;color:var(--c2);line-height:1.4}
+.fat-lines p{font-size:12px;color:var(--c2);line-height:1.6;margin-bottom:4px}
+/* ── shopping ── */
+.shop-bar{display:flex;gap:6px;margin-bottom:10px;align-items:center;flex-wrap:wrap}
+.fbtn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  background:var(--bg3);color:var(--c2);border:1px solid var(--brd)}
+.fbtn.on{background:var(--grn);color:#fff;border-color:var(--grn)}
+.rst-btn{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;
+  background:var(--bg3);color:var(--c2);border:1px solid var(--brd);margin-left:auto}
+.prog{font-size:12px;color:var(--c3);padding:2px 0 10px}
+.cat-lbl{font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.5px;color:var(--c3);padding:8px 0 4px}
+.si{display:flex;align-items:flex-start;gap:10px;
+  padding:10px 0;border-bottom:1px solid var(--brd)}
 .si:last-child{border-bottom:none}
-.si.done{opacity:.38}
-.si.done .si-name{text-decoration:line-through}
-.si-cb{width:28px;min-width:28px;height:28px;border-radius:7px;border:2px solid var(--c3);display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .15s;flex-shrink:0}
-.si.done .si-cb{background:var(--grn);border-color:var(--grn)}
-.si-tick{display:none;color:#fff;font-size:16px;font-weight:700;line-height:1}
-.si.done .si-tick{display:block}
-.si-info{flex:1;min-width:0}
-.si-name{font-size:17px;font-weight:500;line-height:1.3}
-.si-de{font-size:14px;color:var(--c2);margin-top:3px}
-.si-note{font-size:12px;color:var(--c3);margin-top:3px}
-.si-r{text-align:right;flex-shrink:0;padding-top:1px}
-.si-qty{font-size:16px;font-weight:700;white-space:nowrap}
-.si-qty-scaled{font-size:12px;color:var(--c3);white-space:nowrap;margin-top:2px}
-.si-lnk{display:block;font-size:12px;color:var(--blu);margin-top:5px;text-decoration:none}
-.si-lnk:active{opacity:.7}
-.wed-tag{display:inline-block;font-size:11px;font-weight:700;background:var(--amb-l);color:var(--amb);padding:2px 7px;border-radius:4px;margin-top:5px}
+.si input{width:20px;height:20px;min-width:20px;accent-color:var(--grn);
+  margin-top:1px;cursor:pointer}
+.si-body{flex:1}
+.si-name{font-size:14px;font-weight:600}
+.si-qty{font-size:12px;color:var(--c2)}
+.si-note{font-size:11px;color:var(--c3);margin-top:1px}
+.si-link{font-size:11px;color:var(--grn);display:inline-block;margin-top:3px}
+.si.done .si-name{text-decoration:line-through;color:var(--c3)}
+.si.done .si-qty{color:var(--c3)}
 </style>
 </head>
 <body>
 <div class="wrap">
 <div class="hdr">
-  <div class="hdr1">
+  <div class="hdr-top">
     <span class="app-title" id="app-title">Боулы</span>
-    <div class="controls">
-      <span class="meals-label" id="ml-label">боулов/нед.</span>
-      <div class="sw" id="meals-sw">
-        <button class="sw-btn" onclick="setMeals(7)" id="mb7">7</button>
-        <button class="sw-btn" onclick="setMeals(14)" id="mb14">14</button>
-        <button class="sw-btn on" onclick="setMeals(21)" id="mb21">21</button>
-      </div>
-      <div class="sw">
-        <button class="sw-btn on" onclick="setLang('ru')" id="lb-ru">RU</button>
-        <button class="sw-btn" onclick="setLang('de')" id="lb-de">DE</button>
-      </div>
-    </div>
+    <button class="lang-btn" id="lang-btn" onclick="toggleLang()">DE</button>
   </div>
   <div class="tabs">
-    <div class="tab on" id="tab-sched" onclick="showTab('sched')">Расписание</div>
-    <div class="tab" id="tab-shop" onclick="showTab('shop')">Список покупок</div>
+    <button class="tab on" id="tab-s" onclick="switchTab('s')">Расписание</button>
+    <button class="tab" id="tab-h" onclick="switchTab('h')">Список покупок</button>
   </div>
 </div>
-<div class="view on" id="view-sched"></div>
-<div class="view" id="view-shop"></div>
+<div id="view-s" class="view on"></div>
+<div id="view-h" class="view"></div>
 </div>
 
 <script>
-var L = localStorage.getItem('bowl-lang') || 'ru';
-var mealsCount = parseInt(localStorage.getItem('bowl-meals') || '21');
-var shopFilter = 'sat';
-var checked = JSON.parse(localStorage.getItem('bowl-checked') || '{}');
+var lang = localStorage.getItem('bowl-lang')||'ru';
+var shopFilter = 'all';
+var chk = JSON.parse(localStorage.getItem('bowl-chk')||'{}');
 
+/* ── translations ── */
 var T = {
-  ru:{
-    title:'Боулы', sched:'Расписание', shop:'Список покупок',
-    b:'Завтрак', l:'Обед', d:'Ужин',
-    mealslbl:'боулов/нед.',
-    all:'Все', sat:'Суббота', wed:'Среда',
-    reset:'Сбросить', drtitle:'Заправки (справочник)',
-    pf:'Рыба', ps:'Морепродукты', pp:'Птица', pv:'Растительный', pm:'Красное мясо',
-    cCarbs:'🌾 Крупы и макароны', cProt:'🥩 Белки', cGreens:'🥗 Листья',
-    cVeg:'🥕 Овощи', cHerbs:'🌿 Свежая зелень', cSauces:'🫙 Специи и соусы',
-    cTops:'🥜 Посыпки', cWed:'🐟 Свежая рыба — купить в среду',
-    satDay:'Суббота', sunDay:'Воскресенье', wedDay:'Среда',
-    satSub:'Поход в REWE (1.5 ч)', sunSub:'Готовим заготовки (2 ч)', wedSub:'Закупка + готовка (1 ч)',
-    aft:'ГОТОВКА',
-    satNote:'Свежую рыбу (лосось + стейк тунца) покупать в СРЕДУ, не сегодня',
-    goShopSat:'→ Список покупок (суббота)',
-    goShopWed:'→ Список покупок (среда)',
-    wedBuy:'🛒 КУПИТЬ: Лосось 150г + Стейк тунца ТК 150г',
-    wedCook:'🍳 ПРИГОТОВИТЬ вечером:',
-    carbsLabel:'углеводов',
-    bought:'куплено',
-    scaleBanner:'Количества в списке покупок пересчитаны для {n} боулов в неделю. Шаги готовки — для 21 боула, уменьшайте пропорционально.',
-    noScale:'Без масштабирования (базовое количество)',
-    sunSteps:[
-      '14:00 — Бурый рис 270г + Гречка 95г (плита)',
-      '14:10 — Филе индейки 300г → духовка 180°C',
-      '14:15 — Киноа 220г (плита)',
-      '14:25 — Булгур 120г + Кускус 90г (залить кипятком)',
-      '14:35 — Индейка готова → Куриное филе 300г в духовку',
-      '14:55 — Курица готова → Нут 70г (отварной) → духовка 200°C',
-      '15:20 — Заправки D1 D2 D3 D7',
-      '15:30 — Помыть и убрать всю зелень'
-    ],
-    wedSteps:[
-      'Гречка 190г + Булгур 240г (плита)',
-      'Киноа 330г (плита)',
-      'Бурый рис 180г (плита)',
-      'Кускус 90г (залить кипятком)',
-      'Лосось 75г → духовка 200°C, 15 мин (завтрак чт)',
-      'Куриные бедра 200г → духовка 180°C, 30 мин (ужин сб)',
-      'Заправки D4 D5 D6 D8',
-      '❄️ Разморозить креветки и куриные бедра'
-    ],
-    pnotes:{
-      mon:'❄️ Разморозить креветки на ночь (ужин вт)',
-      tue:'Приготовить заправки D4 и D5',
-      wed:'', thu:'❄️ Разморозить стейк тунца на ночь (обед пт)',
-      fri:'Сварить макароны из горошка и чечевицы · Запечь треску 15 мин',
-      sat:'❄️ Разморозить креветки на ночь (ужин вс)',
-      sun:'Последний день · Начать подготовку к следующей неделе'
-    }
-  },
-  de:{
-    title:'Bowl-Plan', sched:'Wochenplan', shop:'Einkaufsliste',
-    b:'Frühstück', l:'Mittagessen', d:'Abendessen',
-    mealslbl:'Bowls/Woche',
-    all:'Alle', sat:'Samstag', wed:'Mittwoch',
-    reset:'Zurücksetzen', drtitle:'Dressings (Referenz)',
-    pf:'Fisch', ps:'Meeresfrüchte', pp:'Geflügel', pv:'Pflanzlich', pm:'Rotes Fleisch',
-    cCarbs:'🌾 Getreide & Nudeln', cProt:'🥩 Proteine', cGreens:'🥗 Salate',
-    cVeg:'🥕 Gemüse', cHerbs:'🌿 Frische Kräuter', cSauces:'🫙 Würzmittel & Saucen',
-    cTops:'🥜 Toppings', cWed:'🐟 Frischer Fisch — am Mittwoch kaufen',
-    satDay:'Samstag', sunDay:'Sonntag', wedDay:'Mittwoch',
-    satSub:'REWE-Einkauf (1,5 Std.)', sunSub:'Batch-Kochen (2 Std.)', wedSub:'Einkauf + Kochen (1 Std.)',
-    aft:'KOCHEN',
-    satNote:'Frischen Fisch (Lachs + Thunfischsteak) erst MITTWOCH kaufen, nicht heute',
-    goShopSat:'→ Einkaufsliste (Samstag)',
-    goShopWed:'→ Einkaufsliste (Mittwoch)',
-    wedBuy:'🛒 KAUFEN: Lachsfilet 150g + Thunfischsteak TK 150g',
-    wedCook:'🍳 KOCHEN am Abend:',
-    carbsLabel:'Kohlenhydrate',
-    bought:'gekauft',
-    scaleBanner:'Mengen in der Einkaufsliste wurden für {n} Bowls pro Woche angepasst. Kochschritte gelten für 21 Bowls — bitte proportional reduzieren.',
-    noScale:'Ohne Skalierung (Basismenge)',
-    sunSteps:[
-      '14:00 — Brauner Reis 270g + Buchweizen 95g (Herd)',
-      '14:10 — Putenbrustfilet 300g → Ofen 180°C',
-      '14:15 — Quinoa 220g (Herd)',
-      '14:25 — Bulgur 120g + Couscous 90g (mit kochendem Wasser übergießen)',
-      '14:35 — Pute fertig → Hähnchenbrustfilet 300g in den Ofen',
-      '14:55 — Hähnchen fertig → Kichererbsen 70g → Ofen 200°C',
-      '15:20 — Dressings D1 D2 D3 D7',
-      '15:30 — Grünzeug waschen und lagern'
-    ],
-    wedSteps:[
-      'Buchweizen 190g + Bulgur 240g (Herd)',
-      'Quinoa 330g (Herd)',
-      'Brauner Reis 180g (Herd)',
-      'Couscous 90g (mit kochendem Wasser übergießen)',
-      'Lachsfilet 75g → Ofen 200°C, 15 Min (Do Frühstück)',
-      'Hähnchenoberschenkel 200g → Ofen 180°C, 30 Min (Sa Abendessen)',
-      'Dressings D4 D5 D6 D8 zubereiten',
-      '❄️ Garnelen + Hähnchenkeulen auftauen'
-    ],
-    pnotes:{
-      mon:'❄️ Garnelen über Nacht auftauen (Di-Abendessen)',
-      tue:'D4 und D5 zubereiten (Joghurt-Dressings)',
-      wed:'', thu:'❄️ Thunfischsteak über Nacht auftauen (Fr-Mittagessen)',
-      fri:'Erbsen-Nudeln + Linsen-Nudeln kochen · Kabeljau 15 Min backen',
-      sat:'❄️ Garnelen über Nacht auftauen (So-Abendessen)',
-      sun:'Letzter Tag · Nächste Woche vorbereiten'
-    }
-  }
+ru:{
+  appTitle:'Боулы', sched:'Расписание', shop:'Список покупок',
+  b:'Завтрак', l:'Обед', snack:'Перекус', d:'Ужин',
+  daily:'Дневная норма',
+  trainLabel:'🏋️ Тренировка (ср + вс)', trainMacro:'170P · 200C · 100F',
+  restLabel:'😴 Отдых (пн вт чт пт сб)', restMacro:'140P · 160C · 85F',
+  bMacro:'40P · 60C · 25F', lMacro:'45P · 70C · 30F',
+  snackMacro:'30P · 40C · 15F', dMacro:'55P · 30C · 30F',
+  grainCook:'сварить', sB:'З', sL:'О', sD:'У',
+  vegDay:'Овощи дня:',
+  snackL1:'Протеин 25г + молоко 200мл',
+  snackL2:'Банан + арах. паста 10г',
+  restNote:'день отдыха · перекус не нужен',
+  dressTxt:'Заправка',
+  satDay:'Суббота — поход в REWE', satSub:'Полная закупка на неделю',
+  satSteps:['Купить все позиции из субботнего списка','Заморозку разложить по отсекам','Промыть и нарезать огурцы, морковь, перец, редис, фенхель, сельдерей','❄️ Вечером: разморозить креветки на ночь → ужин понедельника'],
+  sunDay:'Воскресенье — заготовки', sunSub:'≈ 1 час',
+  sunSteps:['Куриное филе 120г → духовка 200°C, 25 мин (→ обед пн)','Филе индейки 300г → 180°C, 25 мин (→ обед вт + ср)','Заправки D1 D2 D3 D7 — масляные, хранятся всю неделю'],
+  wedDay:'Среда — закупка + готовка', wedSub:'Зелень, авокадо и новые заготовки (≈ 1 ч)',
+  wedBuyLbl:'Купить:',
+  wedBuy:['Шпинат 100г (пятница)','Рукола 100г (воскресенье)','Авокадо 3 шт. (чт – вс)'],
+  wedCookLbl:'Приготовить:',
+  wedSteps:['Куриное филе 245г → 200°C, 25 мин (→ обед чт + пт)','Куриные бёдра 265г → 180°C, 35 мин (→ ужин сб)','Лосось 130г → 200°C, 15 мин (→ завтрак чт)','Заправки D4 D5 D6 D8 — йогуртовые, хранятся 3–4 дня'],
+  goSat:'→ Список (суббота)', goWed:'→ Список (среда)',
+  all:'Все', sat:'Суббота', wed:'Среда',
+  reset:'Сбросить', bought:'куплено',
+  cCarbs:'🌾 Крупы', cProt:'🥩 Белки', cSnack:'🥤 Перекус',
+  cGreens:'🥗 Листья', cVeg:'🥕 Овощи', cHerbs:'🌿 Зелень',
+  cSauces:'🫙 Заправки', cTops:'🥜 Посыпки',
+  pf:'Рыба', ps:'Морепр.', pp:'Птица', pm:'Мясо',
+  drtitle:'Заправки (D1–D8)',
+  fatTitle:'Жиры — ориентир',
+  fatFatty:'Жирный белок (гравлакс, лосось, бёдра): масло 5г + орехи 10г',
+  fatLeanB:'Постный белок на завтрак: авок. 50г · масло 8г · орехи 15г',
+  fatLeanLD:'Постный белок на обед/ужин: авок. 75г · масло 10г · орехи 10–15г',
+  dresses:[
+    {id:'D1',t:'Оливковое масло 15г + кунжутное 5г + соевый соус 5г + сухой чеснок'},
+    {id:'D2',t:'Оливковое масло 15г + бальзамик 10г + орегано'},
+    {id:'D3',t:'Оливковое масло 15г + лимонный сок 10г + укроп'},
+    {id:'D4',t:'Греческий йогурт 50г + томатный концентрат 10г + чеснок + паприка'},
+    {id:'D5',t:'Греческий йогурт 50г + горчица 5г + лимонный сок'},
+    {id:'D6',t:'Тахини 20г + лимонный сок 10г + чеснок + вода'},
+    {id:'D7',t:'Оливковое масло 15г + петрушка + укроп + кинза + чеснок'},
+    {id:'D8',t:'Греческий йогурт 50г + огурец 30г + укроп + чеснок'},
+  ]
+},
+de:{
+  appTitle:'Bowls', sched:'Zeitplan', shop:'Einkaufsliste',
+  b:'Frühstück', l:'Mittagessen', snack:'Snack', d:'Abendessen',
+  daily:'Tagesbedarf',
+  trainLabel:'🏋️ Training (Mi + So)', trainMacro:'170P · 200C · 100F',
+  restLabel:'😴 Ruhetag (Mo Di Do Fr Sa)', restMacro:'140P · 160C · 85F',
+  bMacro:'40P · 60C · 25F', lMacro:'45P · 70C · 30F',
+  snackMacro:'30P · 40C · 15F', dMacro:'55P · 30C · 30F',
+  grainCook:'kochen', sB:'F', sL:'M', sD:'A',
+  vegDay:'Gemüse des Tages:',
+  snackL1:'Proteinpulver 25g + Vollmilch 200ml',
+  snackL2:'Banane + Erdnussbutter 10g',
+  restNote:'Ruhetag · kein Snack nötig',
+  dressTxt:'Dressing',
+  satDay:'Samstag — REWE Einkauf', satSub:'Vollständiger Wocheneinkauf',
+  satSteps:['Alle Samstag-Artikel kaufen','Tiefkühlware verstauen','Gurken, Karotten, Paprika, Radieschen, Fenchel, Sellerie waschen & schneiden','❄️ Abends: Garnelen über Nacht auftauen → Mo-Abendessen'],
+  sunDay:'Sonntag — Batch-Kochen', sunSub:'≈ 1 Stunde',
+  sunSteps:['Hähnchenbrustfilet 120g → Ofen 200°C, 25 Min (→ Mo-Mittagessen)','Putenbrustfilet 300g → 180°C, 25 Min (→ Di + Mi Mittagessen)','Dressings D1 D2 D3 D7 — Öl-Basis, die ganze Woche haltbar'],
+  wedDay:'Mittwoch — Einkauf + Kochen', wedSub:'Grünes, Avocado & neue Portionen (≈ 1 Std)',
+  wedBuyLbl:'Kaufen:',
+  wedBuy:['Spinat 100g (Freitag)','Rucola 100g (Sonntag)','Avocado 3 Stück (Do – So)'],
+  wedCookLbl:'Kochen:',
+  wedSteps:['Hähnchenbrustfilet 245g → 200°C, 25 Min (→ Do + Fr Mittagessen)','Hähnchenoberschenkel 265g → 180°C, 35 Min (→ Sa-Abendessen)','Lachsfilet 130g → 200°C, 15 Min (→ Do-Frühstück)','Dressings D4 D5 D6 D8 — Joghurt-Basis, 3–4 Tage haltbar'],
+  goSat:'→ Liste (Samstag)', goWed:'→ Liste (Mittwoch)',
+  all:'Alle', sat:'Samstag', wed:'Mittwoch',
+  reset:'Zurücksetzen', bought:'gekauft',
+  cCarbs:'🌾 Getreide', cProt:'🥩 Proteine', cSnack:'🥤 Snack',
+  cGreens:'🥗 Blätter', cVeg:'🥕 Gemüse', cHerbs:'🌿 Kräuter',
+  cSauces:'🫙 Dressings', cTops:'🥜 Toppings',
+  pf:'Fisch', ps:'Meeresf.', pp:'Geflügel', pm:'Fleisch',
+  drtitle:'Dressings (D1–D8)',
+  fatTitle:'Fette — Orientierung',
+  fatFatty:'Fettreiches Protein (Graved Lachs, Lachs, Oberschenkel): Öl 5g + Nüsse 10g',
+  fatLeanB:'Mageres Protein zum Frühstück: Avoc. 50g · Öl 8g · Nüsse 15g',
+  fatLeanLD:'Mageres Protein zu Mittag/Abend: Avoc. 75g · Öl 10g · Nüsse 10–15g',
+  dresses:[
+    {id:'D1',t:'Olivenöl 15g + Sesamöl 5g + Sojasoße 5g + Knoblauchpulver'},
+    {id:'D2',t:'Olivenöl 15g + Balsamico 10g + Oregano'},
+    {id:'D3',t:'Olivenöl 15g + Zitronensaft 10g + Dill'},
+    {id:'D4',t:'Griech. Joghurt 50g + Tomatenmark 10g + Knoblauch + Paprikapulver'},
+    {id:'D5',t:'Griech. Joghurt 50g + Senf 5g + Zitronensaft'},
+    {id:'D6',t:'Tahini 20g + Zitronensaft 10g + Knoblauch + Wasser'},
+    {id:'D7',t:'Olivenöl 15g + Petersilie + Dill + Koriander + Knoblauch'},
+    {id:'D8',t:'Griech. Joghurt 50g + Gurke 30g + Dill + Knoblauch'},
+  ]
+}
 };
 
-var drRU = [
-  ['D1','Оливковое масло + кунжутное масло + соевый соус + чеснок + соль + перец'],
-  ['D2','Оливковое масло + бальзамический уксус + соевый соус + соль + перец'],
-  ['D3','Оливковое масло + лимонный сок + горчица + соль + перец'],
-  ['D4','Йогурт 50г + томатная паста 30г + вода 30г + зелень + чеснок + соль + перец'],
-  ['D5','Йогурт 50г + вода 30г + горчица 5г + чеснок + соль + перец'],
-  ['D6','Тахини 10г + соевый соус + кунжутное масло 5г + соль + перец'],
-  ['D7','Оливковое масло + средиземноморские травы + соль + перец'],
-  ['D8','Йогурт 50г + свежая зелень + тёртый огурец + чеснок + соль + перец']
-];
-var drDE = [
-  ['D1','Olivenöl + Sesamöl + Sojasoße + Knoblauchpulver + Salz + Pfeffer'],
-  ['D2','Olivenöl + Balsamico-Essig + Sojasoße + Salz + Pfeffer'],
-  ['D3','Olivenöl + Zitronensaft + Senf + Salz + Pfeffer'],
-  ['D4','Joghurt 50g + Tomatenmark 30g + Wasser 30g + Kräuter + Knoblauch + Salz + Pfeffer'],
-  ['D5','Joghurt 50g + Wasser 30g + Senf 5g + Knoblauch + Salz + Pfeffer'],
-  ['D6','Tahini 10g + Sojasoße + Sesamöl 5g + Salz + Pfeffer'],
-  ['D7','Olivenöl + Mediterrane Kräuter + Salz + Pfeffer'],
-  ['D8','Joghurt 50g + frische Kräuter + geriebene Gurke + Knoblauch + Salz + Pfeffer']
-];
-
-// meal: [base_ru, base_de, baseAmt, prot_ru, prot_de, ptClass, g_ru, g_de, v_ru, v_de, dNum, top_ru, top_de, protAmt]
+/* ── meal plan ── */
 var plan = [
-  {day:{ru:'Понедельник',de:'Montag'},carbs:200,pk:'mon',meals:[
-    ['Киноа','Quinoa','110г','Гравлакс','Graved Lachs','pf','Шпинат · Рукола','Spinat · Rucola','Огурец · Помидор','Gurke · Tomate',3,'Грецкий орех','Walnüsse','75г'],
-    ['Бурый рис','Brauner Reis','90г','Куриное филе','Hähnchenbrustfilet','pp','Шпинат','Spinat','Морковь · Перец','Karotte · Paprika',1,'Кунжут','Sesam','120г'],
-    ['Бурый рис','Brauner Reis','90г','Нут (запечённый)','Kichererbsen (geröstet)','pv','Фельдсалат','Feldsalat','Фенхель · Помидор','Fenchel · Tomate',4,'Семечки подс.','Sonnenblumenkerne','35г сух.']
-  ]},
-  {day:{ru:'Вторник',de:'Dienstag'},carbs:201,pk:'tue',meals:[
-    ['Гречка','Buchweizen','95г','Тунец консерв.','Thunfisch (eigenem Saft)','pf','Шпинат','Spinat','Огурец · Редис','Gurke · Radieschen',2,'Семена льна','Leinsamen','75г'],
-    ['Булгур','Bulgur','120г','Куриное филе','Hähnchenbrustfilet','pp','Рукола','Rucola','Морковь · Сельдерей','Karotte · Sellerie',7,'Миндаль','Mandeln','120г'],
-    ['Киноа','Quinoa','110г','Креветки','Garnelen','ps','Романо','Romana','Помидор · Перец','Tomate · Paprika',3,'Кешью','Cashewkerne','120г']
-  ]},
-  {day:{ru:'Среда',de:'Mittwoch'},carbs:200,pk:'wed',meals:[
-    ['Бурый рис','Brauner Reis','90г','Гравлакс','Graved Lachs','pf','Фельдсалат','Feldsalat','Огурец · Фенхель','Gurke · Fenchel',8,'Кунжут','Sesam','75г'],
-    ['Кускус','Couscous','90г','Филе индейки','Putenbrustfilet','pp','Шпинат','Spinat','Морковь · Помидор','Karotte · Tomate',5,'Арахис','Erdnüsse','120г'],
-    ['Гречка','Buchweizen','95г','Тунец консерв.','Thunfisch (eigenem Saft)','pf','Айсберг','Eisbergsalat','Редис · Перец','Radieschen · Paprika',6,'Кедровый орех','Pinienkerne','75г']
-  ]},
-  {day:{ru:'Четверг',de:'Donnerstag'},carbs:201,pk:'thu',meals:[
-    ['Киноа','Quinoa','110г','Лосось запечённый','Lachsfilet','pf','Рукола','Rucola','Огурец · Помидор','Gurke · Tomate',1,'Кунжут','Sesam','75г'],
-    ['Гречка','Buchweizen','95г','Филе индейки','Putenbrustfilet','pp','Шпинат','Spinat','Морковь · Фенхель','Karotte · Fenchel',3,'Грецкий орех','Walnüsse','120г'],
-    ['Булгур','Bulgur','120г','Креветки','Garnelen','ps','Романо','Romana','Перец · Сельдерей','Paprika · Sellerie',7,'Семечки подс.','Sonnenblumenkerne','120г']
-  ]},
-  {day:{ru:'Пятница',de:'Freitag'},carbs:198,pk:'fri',meals:[
-    ['Бурый рис','Brauner Reis','90г','Тунец консерв.','Thunfisch (eigenem Saft)','pf','Фельдсалат','Feldsalat','Редис · Морковь','Radieschen · Karotte',2,'Миндаль','Mandeln','75г'],
-    ['Мак. из горошка','Erbsen-Nudeln','130г','Стейк тунца','Thunfischsteak','pf','Рукола','Rucola','Огурец · Помидор','Gurke · Tomate',4,'Кешью','Cashewkerne','75г'],
-    ['Киноа','Quinoa','110г','Треска запечённая','Kabeljaufilet','pf','Шпинат','Spinat','Перец · Фенхель','Paprika · Fenchel',5,'Кедровый орех','Pinienkerne','120г']
-  ]},
-  {day:{ru:'Суббота',de:'Samstag'},carbs:199,pk:'sat',meals:[
-    ['Кускус','Couscous','90г','Гравлакс','Graved Lachs','pf','Айсберг','Eisbergsalat','Огурец · Редис','Gurke · Radieschen',8,'Семена льна','Leinsamen','75г'],
-    ['Мак. из чечевицы','Linsen-Nudeln','140г','Кольца кальмара','Tintenfischringe','ps','Рукола','Rucola','Морковь · Перец','Karotte · Paprika',6,'Кунжут','Sesam','120г'],
-    ['Бурый рис','Brauner Reis','90г','Куриные бедра','Hähnchenoberschenkel','pp','Шпинат','Spinat','Помидор · Сельдерей','Tomate · Sellerie',1,'Арахис','Erdnüsse','120г']
-  ]},
-  {day:{ru:'Воскресенье',de:'Sonntag'},carbs:201,pk:'sun',meals:[
-    ['Гречка','Buchweizen','95г','Тунец консерв.','Thunfisch (eigenem Saft)','pf','Фельдсалат','Feldsalat','Огурец · Фенхель','Gurke · Fenchel',3,'Грецкий орех','Walnüsse','75г'],
-    ['Булгур','Bulgur','120г','Телятина вырезка','Kalbsfilet','pm','Романо','Romana','Морковь · Помидор','Karotte · Tomate',7,'Миндаль','Mandeln','120г'],
-    ['Киноа','Quinoa','110г','Креветки','Garnelen','ps','Шпинат','Spinat','Перец · Редис','Paprika · Radieschen',2,'Кедровый орех','Pinienkerne','120г']
-  ]}
+  {day:{ru:'Понедельник',de:'Montag'},
+   grain:{ru:'Киноа',de:'Quinoa',total:265,b:100,l:115,d:50},
+   veg:{g:{ru:'Шпинат',de:'Spinat'},v1:{ru:'Огурец',de:'Gurke'},v2:{ru:'Помидор',de:'Tomate'}},
+   thaw:{ru:'❄️ Вечером: лосось на ночь → ужин вторника',de:'❄️ Abends: Lachs auftauen → Di-Abendessen'},
+   meals:{
+     b:{ru:'Гравлакс',de:'Graved Lachs',amt:'135г',pt:'pf',dr:'D3',fat:'f'},
+     l:{ru:'Куриное филе',de:'Hähnchenbrustfilet',amt:'120г',pt:'pp',dr:'D1',fat:'l'},
+     d:{ru:'Креветки',de:'Garnelen',amt:'245г',pt:'ps',dr:'D6',fat:'l'}
+   }},
+  {day:{ru:'Вторник',de:'Dienstag'},
+   grain:{ru:'Бурый рис',de:'Brauner Reis',total:215,b:80,l:95,d:40},
+   veg:{g:{ru:'Рукола',de:'Rucola'},v1:{ru:'Морковь',de:'Karotte'},v2:{ru:'Редис',de:'Radieschen'}},
+   thaw:{ru:'❄️ Вечером: стейк тунца на ночь → ужин среды',de:'❄️ Abends: Thunfischsteak auftauen → Mi-Abendessen'},
+   meals:{
+     b:{ru:'Тунец конс.',de:'Thunfisch eigenem Saft',amt:'130г',pt:'pf',dr:'D2',fat:'l'},
+     l:{ru:'Филе индейки',de:'Putenbrustfilet',amt:'165г',pt:'pp',dr:'D7',fat:'l'},
+     d:{ru:'Лосось',de:'Lachsfilet',amt:'250г',pt:'pf',dr:'D3',fat:'f'}
+   }},
+  {day:{ru:'Среда',de:'Mittwoch'},
+   grain:{ru:'Гречка',de:'Buchweizen',total:230,b:85,l:100,d:45},
+   veg:{g:{ru:'Фельдсалат',de:'Feldsalat'},v1:{ru:'Фенхель',de:'Fenchel'},v2:{ru:'Сельдерей',de:'Staudensellerie'}},
+   thaw:{ru:'❄️ Вечером: лосось (завтрак чт) + креветки (ужин чт) на ночь',de:'❄️ Abends: Lachs (Do-Frühstück) + Garnelen (Do-Abendessen) auftauen'},
+   meals:{
+     b:{ru:'Гравлакс',de:'Graved Lachs',amt:'150г',pt:'pf',dr:'D8',fat:'f'},
+     l:{ru:'Филе индейки',de:'Putenbrustfilet',amt:'135г',pt:'pp',dr:'D5',fat:'l'},
+     d:{ru:'Стейк тунца',de:'Thunfischsteak',amt:'205г',pt:'pf',dr:'D6',fat:'l'}
+   }},
+  {day:{ru:'Четверг',de:'Donnerstag'},
+   grain:{ru:'Булгур',de:'Bulgur',total:280,b:105,l:120,d:55},
+   veg:{g:{ru:'Романо',de:'Romana'},v1:{ru:'Морковь',de:'Karotte'},v2:{ru:'Перец',de:'Paprika'}},
+   thaw:{ru:'❄️ Вечером: треска на ночь → ужин пятницы',de:'❄️ Abends: Kabeljau auftauen → Fr-Abendessen'},
+   meals:{
+     b:{ru:'Лосось',de:'Lachsfilet',amt:'130г',pt:'pf',dr:'D3',fat:'f'},
+     l:{ru:'Куриное филе',de:'Hähnchenbrustfilet',amt:'125г',pt:'pp',dr:'D1',fat:'l'},
+     d:{ru:'Креветки',de:'Garnelen',amt:'245г',pt:'ps',dr:'D7',fat:'l'}
+   }},
+  {day:{ru:'Пятница',de:'Freitag'},
+   grain:{ru:'Киноа',de:'Quinoa',total:265,b:100,l:115,d:50},
+   veg:{g:{ru:'Шпинат',de:'Spinat'},v1:{ru:'Помидор',de:'Tomate'},v2:{ru:'Огурец',de:'Gurke'}},
+   thaw:{ru:'❄️ Вечером: кольца кальмара на ночь → обед субботы',de:'❄️ Abends: Tintenfischringe auftauen → Sa-Mittagessen'},
+   meals:{
+     b:{ru:'Тунец конс.',de:'Thunfisch eigenem Saft',amt:'100г',pt:'pf',dr:'D4',fat:'l'},
+     l:{ru:'Куриное филе',de:'Hähnchenbrustfilet',amt:'120г',pt:'pp',dr:'D5',fat:'l'},
+     d:{ru:'Треска',de:'Kabeljaufilet',amt:'255г',pt:'pf',dr:'D2',fat:'l'}
+   }},
+  {day:{ru:'Суббота',de:'Samstag'},
+   grain:{ru:'Кускус',de:'Couscous',total:215,b:80,l:95,d:40},
+   veg:{g:{ru:'Айсберг',de:'Eisbergsalat'},v1:{ru:'Редис',de:'Radieschen'},v2:{ru:'Перец',de:'Paprika'}},
+   thaw:{ru:'❄️ Вечером: креветки на ночь → ужин воскресенья',de:'❄️ Abends: Garnelen auftauen → So-Abendessen'},
+   meals:{
+     b:{ru:'Гравлакс',de:'Graved Lachs',amt:'155г',pt:'pf',dr:'D3',fat:'f'},
+     l:{ru:'Кольца кальмара',de:'Tintenfischringe',amt:'195г',pt:'ps',dr:'D6',fat:'l'},
+     d:{ru:'Куриные бёдра',de:'Hähnchenoberschenkel',amt:'265г',pt:'pp',dr:'D1',fat:'f'}
+   }},
+  {day:{ru:'Воскресенье',de:'Sonntag'},
+   grain:{ru:'Гречка',de:'Buchweizen',total:230,b:85,l:100,d:45},
+   veg:{g:{ru:'Рукола',de:'Rucola'},v1:{ru:'Фенхель',de:'Fenchel'},v2:{ru:'Морковь',de:'Karotte'}},
+   thaw:{ru:'❄️ Вечером: креветки на ночь → ужин понедельника (новая неделя)',de:'❄️ Abends: Garnelen auftauen → Mo-Abendessen (neue Woche)'},
+   meals:{
+     b:{ru:'Тунец конс.',de:'Thunfisch eigenem Saft',amt:'110г',pt:'pf',dr:'D8',fat:'l'},
+     l:{ru:'Телятина',de:'Kalbsfilet',amt:'145г',pt:'pm',dr:'D7',fat:'l'},
+     d:{ru:'Креветки',de:'Garnelen',amt:'250г',pt:'ps',dr:'D4',fat:'l'}
+   }}
 ];
 
-// shopData: [id, cat, ru, de, qty21_str, day, link, noteRU, noteDE, baseNum, baseUnit, scaleType]
-// scaleType: 'g'=scale grams (round to 50), 'c'=scale count, 'n'=no scale (pantry/whole items)
+/* ── shopping data ── */
+/* [id, cat, ru, de, qty, day, link, noteRU, noteDE] */
 var shopData = [
-  ['c1','carbs','Киноа','Quinoa','600 г','sat','https://shop.rewe.de/productList?search=Quinoa','','',600,'г','g'],
-  ['c2','carbs','Бурый рис','Brauner Reis','500 г','sat','https://shop.rewe.de/productList?search=Brauner+Reis','','',500,'г','g'],
-  ['c3','carbs','Гречка','Buchweizen','400 г','sat','https://shop.rewe.de/productList?search=Buchweizen','','',400,'г','g'],
-  ['c4','carbs','Булгур','Bulgur','400 г','sat','https://shop.rewe.de/productList?search=Bulgur','','',400,'г','g'],
-  ['c5','carbs','Кускус','Couscous','200 г','sat','https://shop.rewe.de/productList?search=Couscous','','',200,'г','g'],
-  ['c6','carbs','Макароны из горошка','Erbsen-Nudeln','200 г','sat','https://shop.rewe.de/productList?search=Erbsen+Nudeln','','',200,'г','g'],
-  ['c7','carbs','Макароны из чечевицы','Linsen-Nudeln','200 г','sat','https://shop.rewe.de/productList?search=Linsen+Nudeln','','',200,'г','g'],
-  ['p1','prot','Куриное филе','Hähnchenbrustfilet','300 г','sat','https://shop.rewe.de/productList?search=H%C3%A4hnchenbrustfilet','Пн + Вт обед','Mo + Di Mittagessen',300,'г','g'],
-  ['p2','prot','Куриные бедра','Hähnchenoberschenkel','200 г','sat','https://shop.rewe.de/productList?search=H%C3%A4hnchenoberschenkel','Сб ужин — готовить в среду вечером','Sa Abendessen — Mi abends kochen',200,'г','g'],
-  ['p3','prot','Филе индейки','Putenbrustfilet','300 г','sat','https://shop.rewe.de/productList?search=Putenbrustfilet','Ср + Чт обед','Mi + Do Mittagessen',300,'г','g'],
-  ['p4','prot','Телятина вырезка','Kalbsfilet','150 г','sat','https://shop.rewe.de/productList?search=Kalbsfilet','Вс обед — готовить в день','So Mittag — am Tag kochen',150,'г','g'],
-  ['p5','prot','Гравлакс','Graved Lachs','300 г','sat','https://shop.rewe.de/productList?search=Graved+Lachs','Пн + Ср + Сб завтрак','Mo + Mi + Sa Frühstück',300,'г','g'],
-  ['p6','prot','Тунец конс. в собственном соку','Thunfisch in eigenem Saft','4 × 150 г','sat','https://shop.rewe.de/productList?search=Thunfisch+eigenem+Saft','Вт / Ср / Пт / Вс','Di / Mi / Fr / So',4,'× 150 г','c'],
-  ['p7','prot','Треска замороженная','Kabeljaufilet TK','200 г','sat','https://shop.rewe.de/productList?search=Kabeljaufilet','Пт ужин','Fr Abendessen',200,'г','g'],
-  ['p8','prot','Кольца кальмара зам.','Tintenfischringe TK','200 г','sat','https://shop.rewe.de/productList?search=Tintenfischringe','Сб обед','Sa Mittagessen',200,'г','g'],
-  ['p9','prot','Креветки замороженные','Garnelen TK','400 г','sat','https://shop.rewe.de/productList?search=Garnelen','Вт + Чт + Вс ужин','Di + Do + So Abendessen',400,'г','g'],
-  ['p10','prot','Нут (сухой)','Kichererbsen (trocken)','200 г','sat','https://shop.rewe.de/productList?search=Kichererbsen','Пн ужин — замочить в вс вечером','Mo Abendessen',200,'г','g'],
-  ['g1','greens','Шпинат','Spinat','300 г','sat','https://shop.rewe.de/productList?search=Spinat','','',300,'г','g'],
-  ['g2','greens','Рукола','Rucola','150 г','sat','https://shop.rewe.de/productList?search=Rucola','','',150,'г','g'],
-  ['g3','greens','Фельдсалат','Feldsalat','100 г','sat','https://shop.rewe.de/productList?search=Feldsalat','','',100,'г','g'],
-  ['g4','greens','Романо','Romana Salat','1 кочан','sat','https://shop.rewe.de/productList?search=Romana+Salat','','',1,'кочан','n'],
-  ['g5','greens','Айсберг','Eisbergsalat','1 кочан','sat','https://shop.rewe.de/productList?search=Eisbergsalat','','',1,'кочан','n'],
-  ['v1','veg','Огурцы','Gurken','4 шт.','sat','https://shop.rewe.de/productList?search=Gurken','','',4,'шт.','c'],
-  ['v2','veg','Помидоры','Tomaten','500 г','sat','https://shop.rewe.de/productList?search=Tomaten','','',500,'г','g'],
-  ['v3','veg','Морковь','Karotten','6 шт.','sat','https://shop.rewe.de/productList?search=Karotten','','',6,'шт.','c'],
-  ['v4','veg','Сладкий перец','Paprika','4 шт.','sat','https://shop.rewe.de/productList?search=Paprika','','',4,'шт.','c'],
-  ['v5','veg','Фенхель','Fenchel','2 кочана','sat','https://shop.rewe.de/productList?search=Fenchel','','',2,'кочана','c'],
-  ['v6','veg','Стебель сельдерея','Staudensellerie','1 пучок','sat','https://shop.rewe.de/productList?search=Staudensellerie','','',1,'пучок','n'],
-  ['v7','veg','Редис','Radieschen','2 пучка','sat','https://shop.rewe.de/productList?search=Radieschen','','',2,'пучка','n'],
-  ['h1','herbs','Петрушка','Petersilie','1 пучок','sat','https://shop.rewe.de/productList?search=Petersilie','','',1,'пучок','n'],
-  ['h2','herbs','Укроп','Dill','1 пучок','sat','https://shop.rewe.de/productList?search=Dill','','',1,'пучок','n'],
-  ['h3','herbs','Кинза','Koriander','1 пучок','sat','https://shop.rewe.de/productList?search=Koriander','','',1,'пучок','n'],
-  ['h4','herbs','Зелёный лук','Frühlingszwiebeln','1 пучок','sat','https://shop.rewe.de/productList?search=Fr%C3%BChlingszwiebeln','','',1,'пучок','n'],
-  ['s1','sauces','Оливковое масло','Olivenöl','1 бут.','sat','https://shop.rewe.de/productList?search=Oliven%C3%B6l','','',1,'бут.','n'],
-  ['s2','sauces','Кунжутное масло','Sesamöl','1 мал. бут.','sat','https://shop.rewe.de/productList?search=Sesam%C3%B6l','','',1,'мал. бут.','n'],
-  ['s3','sauces','Соевый соус','Sojasoße','1 бут.','sat','https://shop.rewe.de/productList?search=Sojaso%C3%9Fe','','',1,'бут.','n'],
-  ['s4','sauces','Сухой чеснок','Knoblauchpulver','1 банка','sat','https://shop.rewe.de/productList?search=Knoblauchpulver','','',1,'банка','n'],
-  ['s5','sauces','Бальзамический уксус','Balsamico-Essig','1 бут.','sat','https://shop.rewe.de/productList?search=Balsamico','','',1,'бут.','n'],
-  ['s6','sauces','Лимоны','Zitronen','2 шт.','sat','https://shop.rewe.de/productList?search=Zitronen','','',2,'шт.','n'],
-  ['s7','sauces','Горчица','Senf','1 банка','sat','https://shop.rewe.de/productList?search=Senf','','',1,'банка','n'],
-  ['s8','sauces','Греческий йогурт 2–5%','Griechischer Joghurt 2–5%','500 г','sat','https://shop.rewe.de/productList?search=Griechischer+Joghurt','','',500,'г','g'],
-  ['s9','sauces','Томатный концентрат','Tomatenmark','1 туба','sat','https://shop.rewe.de/productList?search=Tomatenmark','','',1,'туба','n'],
-  ['s10','sauces','Тахини','Tahini','1 банка','sat','https://shop.rewe.de/productList?search=Tahini','','',1,'банка','n'],
-  ['s11','sauces','Средиземноморские травы','Mediterrane Kräuter','1 банка','sat','https://shop.rewe.de/productList?search=mediterrane+Kr%C3%A4uter','','',1,'банка','n'],
-  ['t1','tops','Семечки подсолнуха','Sonnenblumenkerne','100 г','sat','https://shop.rewe.de/productList?search=Sonnenblumenkerne','','',100,'г','n'],
-  ['t2','tops','Кунжут','Sesam','100 г','sat','https://shop.rewe.de/productList?search=Sesam','','',100,'г','n'],
-  ['t3','tops','Грецкий орех','Walnüsse','100 г','sat','https://shop.rewe.de/productList?search=Waln%C3%BCsse','','',100,'г','n'],
-  ['t4','tops','Семена льна','Leinsamen','100 г','sat','https://shop.rewe.de/productList?search=Leinsamen','','',100,'г','n'],
-  ['t5','tops','Миндаль','Mandeln','100 г','sat','https://shop.rewe.de/productList?search=Mandeln','','',100,'г','n'],
-  ['t6','tops','Кешью','Cashewkerne','100 г','sat','https://shop.rewe.de/productList?search=Cashewkerne','','',100,'г','n'],
-  ['t7','tops','Кедровый орех','Pinienkerne','50 г','sat','https://shop.rewe.de/productList?search=Pinienkerne','','',50,'г','n'],
-  ['t8','tops','Арахис','Erdnüsse','100 г','sat','https://shop.rewe.de/productList?search=Erdn%C3%BCsse','','',100,'г','n'],
-  ['f1','fish','Лосось (свежий)','Lachsfilet (frisch)','150 г','wed','https://shop.rewe.de/productList?search=Lachsfilet','Запечь в ср вечер → чт завтрак','Mi abends backen → Do Frühstück',150,'г','n'],
-  ['f2','fish','Стейк тунца замороженный','Thunfischsteak TK','150 г','wed','https://shop.rewe.de/productList?search=Thunfischsteak','Разморозить чт ночью → пт обед','Do Nacht auftauen → Fr Mittagessen',150,'г','n']
+  // GRAINS
+  ['c1','carbs','Киноа','Quinoa','550 г','sat','https://shop.rewe.de/productList?search=Quinoa','Пн 265г + Пт 265г','Mo 265g + Fr 265g'],
+  ['c2','carbs','Бурый рис','Brauner Reis','250 г','sat','https://shop.rewe.de/productList?search=Brauner+Reis','Вторник','Dienstag'],
+  ['c3','carbs','Гречка','Buchweizen','500 г','sat','https://shop.rewe.de/productList?search=Buchweizen','Ср 230г + Вс 230г','Mi 230g + So 230g'],
+  ['c4','carbs','Булгур','Bulgur','300 г','sat','https://shop.rewe.de/productList?search=Bulgur','Четверг','Donnerstag'],
+  ['c5','carbs','Кускус','Couscous','250 г','sat','https://shop.rewe.de/productList?search=Couscous','Суббота','Samstag'],
+  // PROTEINS
+  ['p1','prot','Гравлакс','Graved Lachs','500 г','sat','https://shop.rewe.de/productList?search=Graved+Lachs','Завтрак: Пн 135г · Ср 150г · Сб 155г','Frühstück: Mo 135g · Mi 150g · Sa 155g'],
+  ['p2','prot','Тунец в собственном соку','Thunfisch eigenem Saft','3 × 150 г','sat','https://shop.rewe.de/productList?search=Thunfisch+eigenem+Saft','Завтрак: Вт 130г · Пт 100г · Вс 110г','Frühstück: Di 130g · Fr 100g · So 110g'],
+  ['p3','prot','Стейк тунца ТК','Thunfischsteak TK','200 г','sat','https://shop.rewe.de/productList?search=Thunfischsteak','Ужин Ср — разморозить Вт вечером','Mi-Abendessen — Di-Abend auftauen'],
+  ['p4','prot','Лосось ТК','Lachsfilet TK','400 г','sat','https://shop.rewe.de/productList?search=Lachsfilet+TK','Ужин Вт 250г + Завтрак Чт 130г (запечь в Ср)','Di-Abend 250g + Do-Frühstück 130g (Mi backen)'],
+  ['p5','prot','Куриное филе','Hähnchenbrustfilet','400 г','sat','https://shop.rewe.de/productList?search=H%C3%A4hnchenbrustfilet','Обед: Пн 120г · Чт 125г · Пт 120г','Mittagessen: Mo 120g · Do 125g · Fr 120g'],
+  ['p6','prot','Филе индейки','Putenbrustfilet','300 г','sat','https://shop.rewe.de/productList?search=Putenbrustfilet','Обед: Вт 165г + Ср 135г','Mittagessen: Di 165g + Mi 135g'],
+  ['p7','prot','Креветки ТК','Garnelen TK','750 г','sat','https://shop.rewe.de/productList?search=Garnelen+TK','Ужин: Пн 245г · Чт 245г · Вс 250г','Abendessen: Mo 245g · Do 245g · So 250g'],
+  ['p8','prot','Треска ТК','Kabeljaufilet TK','300 г','sat','https://shop.rewe.de/productList?search=Kabeljaufilet+TK','Ужин Пт — разморозить Чт вечером','Fr-Abendessen — Do-Abend auftauen'],
+  ['p9','prot','Кольца кальмара ТК','Tintenfischringe TK','200 г','sat','https://shop.rewe.de/productList?search=Tintenfischringe','Обед Сб — разморозить Пт вечером','Sa-Mittagessen — Fr-Abend auftauen'],
+  ['p10','prot','Куриные бёдра','Hähnchenoberschenkel','300 г','sat','https://shop.rewe.de/productList?search=H%C3%A4hnchenoberschenkel','Ужин Сб — запечь в Ср','Sa-Abendessen — Mi backen'],
+  ['p11','prot','Телятина вырезка','Kalbsfilet','150 г','sat','https://shop.rewe.de/productList?search=Kalbsfilet','Обед Вс — готовить свежим','So-Mittagessen — frisch braten'],
+  // SNACK
+  ['sn1','snack','Протеиновый порошок','Proteinpulver','50 г','sat','https://shop.rewe.de/productList?search=Proteinpulver','25г × 2 тренировки','25g × 2 Trainingstage'],
+  ['sn2','snack','Молоко цельное','Vollmilch','400 мл','sat','https://shop.rewe.de/productList?search=Vollmilch','200мл × 2 тренировки','200ml × 2 Trainingstage'],
+  ['sn3','snack','Бананы','Bananen','2 шт.','sat','https://shop.rewe.de/productList?search=Bananen','1 × 2 тренировки','1 × 2 Trainingstage'],
+  ['sn4','snack','Арахисовая паста','Erdnussbutter','1 банка','sat','https://shop.rewe.de/productList?search=Erdnussbutter','10г × 2 тренировки · хватит на месяц','10g × 2 Trainingstage · reicht einen Monat'],
+  // GREENS (sat)
+  ['g1','greens','Шпинат','Spinat','100 г','sat','https://shop.rewe.de/productList?search=Spinat','Понедельник','Montag'],
+  ['g2','greens','Рукола','Rucola','100 г','sat','https://shop.rewe.de/productList?search=Rucola','Вторник','Dienstag'],
+  ['g3','greens','Фельдсалат','Feldsalat','100 г','sat','https://shop.rewe.de/productList?search=Feldsalat','Среда','Mittwoch'],
+  ['g4','greens','Романо','Romana','1 кочан','sat','https://shop.rewe.de/productList?search=Romana+Salat','Четверг','Donnerstag'],
+  ['g5','greens','Айсберг','Eisbergsalat','1 кочан','sat','https://shop.rewe.de/productList?search=Eisbergsalat','Суббота — хранится долго','Samstag — lange haltbar'],
+  // GREENS (wed)
+  ['g6','greens','Шпинат','Spinat','100 г','wed','https://shop.rewe.de/productList?search=Spinat','Пятница (купить в среду)','Freitag (Mi kaufen)'],
+  ['g7','greens','Рукола','Rucola','100 г','wed','https://shop.rewe.de/productList?search=Rucola','Воскресенье (купить в среду)','Sonntag (Mi kaufen)'],
+  // VEG
+  ['v1','veg','Огурцы','Gurken','3 шт.','sat','https://shop.rewe.de/productList?search=Gurken','Пн + Пт','Mo + Fr'],
+  ['v2','veg','Помидоры','Tomaten','500 г','sat','https://shop.rewe.de/productList?search=Tomaten','Пн + Пт','Mo + Fr'],
+  ['v3','veg','Морковь','Karotten','6 шт.','sat','https://shop.rewe.de/productList?search=Karotten','Вт + Чт + Вс','Di + Do + So'],
+  ['v4','veg','Редис','Radieschen','2 пучка','sat','https://shop.rewe.de/productList?search=Radieschen','Вт + Сб','Di + Sa'],
+  ['v5','veg','Фенхель','Fenchel','2 кочана','sat','https://shop.rewe.de/productList?search=Fenchel','Ср + Вс','Mi + So'],
+  ['v6','veg','Сельдерей','Staudensellerie','1 пучок','sat','https://shop.rewe.de/productList?search=Staudensellerie','Среда','Mittwoch'],
+  ['v7','veg','Перец сладкий','Paprika','4 шт.','sat','https://shop.rewe.de/productList?search=Paprika','Чт + Сб','Do + Sa'],
+  ['v8','veg','Авокадо','Avocado','4 шт.','sat','https://shop.rewe.de/productList?search=Avocado','Пн–Чт · 2 спелых + 2 твёрдых','Mo–Do · 2 reif + 2 hart'],
+  ['v9','veg','Авокадо','Avocado','3 шт.','wed','https://shop.rewe.de/productList?search=Avocado','Пт–Вс (купить в среду)','Fr–So (Mi kaufen)'],
+  // HERBS
+  ['h1','herbs','Петрушка','Petersilie','1 пучок','sat','https://shop.rewe.de/productList?search=Petersilie','',''],
+  ['h2','herbs','Укроп','Dill','1 пучок','sat','https://shop.rewe.de/productList?search=Dill','',''],
+  ['h3','herbs','Кинза','Koriander','1 пучок','sat','https://shop.rewe.de/productList?search=Koriander','',''],
+  ['h4','herbs','Зелёный лук','Frühlingszwiebeln','1 пучок','sat','https://shop.rewe.de/productList?search=Fr%C3%BChlingszwiebeln','',''],
+  // SAUCES / DRESSINGS
+  ['s1','sauces','Оливковое масло','Olivenöl','1 бут.','sat','https://shop.rewe.de/productList?search=Oliven%C3%B6l','',''],
+  ['s2','sauces','Кунжутное масло','Sesamöl','1 бут.','sat','https://shop.rewe.de/productList?search=Sesam%C3%B6l','',''],
+  ['s3','sauces','Соевый соус','Sojasoße','1 бут.','sat','https://shop.rewe.de/productList?search=Sojaso%C3%9Fe','',''],
+  ['s4','sauces','Чесночный порошок','Knoblauchpulver','1 банка','sat','https://shop.rewe.de/productList?search=Knoblauchpulver','',''],
+  ['s5','sauces','Бальзамический уксус','Balsamico-Essig','1 бут.','sat','https://shop.rewe.de/productList?search=Balsamico','',''],
+  ['s6','sauces','Лимоны','Zitronen','2 шт.','sat','https://shop.rewe.de/productList?search=Zitronen','',''],
+  ['s7','sauces','Горчица','Senf','1 банка','sat','https://shop.rewe.de/productList?search=Senf','',''],
+  ['s8','sauces','Греческий йогурт','Griechischer Joghurt','500 г','sat','https://shop.rewe.de/productList?search=Griechischer+Joghurt','Для заправок','Für Dressings'],
+  ['s9','sauces','Томатный концентрат','Tomatenmark','1 туба','sat','https://shop.rewe.de/productList?search=Tomatenmark','',''],
+  ['s10','sauces','Тахини','Tahini','1 банка','sat','https://shop.rewe.de/productList?search=Tahini','',''],
+  ['s11','sauces','Средиземноморские травы','Mediterrane Kräuter','1 банка','sat','https://shop.rewe.de/productList?search=mediterrane+Kr%C3%A4uter','',''],
+  // TOPPINGS
+  ['t1','tops','Грецкий орех','Walnüsse','100 г','sat','https://shop.rewe.de/productList?search=Waln%C3%BCsse','',''],
+  ['t2','tops','Миндаль','Mandeln','100 г','sat','https://shop.rewe.de/productList?search=Mandeln','',''],
+  ['t3','tops','Кунжут','Sesam','100 г','sat','https://shop.rewe.de/productList?search=Sesam','',''],
+  ['t4','tops','Семечки подсолнуха','Sonnenblumenkerne','100 г','sat','https://shop.rewe.de/productList?search=Sonnenblumenkerne','',''],
+  ['t5','tops','Кешью','Cashewkerne','100 г','sat','https://shop.rewe.de/productList?search=Cashewkerne','',''],
+  ['t6','tops','Арахис','Erdnüsse','100 г','sat','https://shop.rewe.de/productList?search=Erdn%C3%BCsse','',''],
+  ['t7','tops','Кедровые орехи','Pinienkerne','50 г','sat','https://shop.rewe.de/productList?search=Pinienkerne','',''],
+  ['t8','tops','Семена льна','Leinsamen','100 г','sat','https://shop.rewe.de/productList?search=Leinsamen','',''],
 ];
 
-var catOrder = ['carbs','prot','greens','veg','herbs','sauces','tops','fish'];
-var catKey = {carbs:'cCarbs',prot:'cProt',greens:'cGreens',veg:'cVeg',herbs:'cHerbs',sauces:'cSauces',tops:'cTops',fish:'cWed'};
+var catOrder = ['carbs','prot','snack','greens','veg','herbs','sauces','tops'];
+var catKey = {carbs:'cCarbs',prot:'cProt',snack:'cSnack',greens:'cGreens',
+              veg:'cVeg',herbs:'cHerbs',sauces:'cSauces',tops:'cTops'};
 
-function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-function factor(){ return mealsCount / 21; }
-
-function getQty(it){
-  var f = factor();
-  var type = it[11];
-  if(type === 'n' || f >= 1) return {main: it[4], sub: null};
-  if(type === 'g'){
-    var amt = Math.max(50, Math.ceil(it[9] * f / 50) * 50);
-    return {main: amt + ' ' + it[10], sub: it[4]};
+/* ── fat note helper ── */
+function fatNote(mkey, fatType) {
+  if (mkey === 'b') {
+    return fatType === 'f'
+      ? (lang==='ru' ? 'масло 5г + орехи 10г' : 'Öl 5g + Nüsse 10g')
+      : (lang==='ru' ? 'авок. 50г · масло 8г · орехи 15г' : 'Avoc. 50g · Öl 8g · Nüsse 15g');
   }
-  if(type === 'c'){
-    var cnt = Math.max(1, Math.ceil(it[9] * f));
-    return {main: cnt + ' ' + it[10], sub: it[4]};
+  if (mkey === 'l') {
+    return lang==='ru' ? 'авок. 75г · масло 10г · орехи 15г' : 'Avoc. 75g · Öl 10g · Nüsse 15g';
   }
-  return {main: it[4], sub: null};
+  // dinner
+  return fatType === 'f'
+    ? (lang==='ru' ? 'масло 5г · орехи 10г' : 'Öl 5g · Nüsse 10g')
+    : (lang==='ru' ? 'авок. 75г · масло 10г · орехи 10г' : 'Avoc. 75g · Öl 10g · Nüsse 10g');
 }
 
-function mealIndices(){
-  var mpd = mealsCount / 7;
-  if(mpd >= 3) return [0,1,2];
-  if(mpd >= 2) return [1,2];
-  return [2];
+/* ── meal cell builder ── */
+function mealCell(mkey, meal, grainName, grainAmt, t) {
+  var h = '<div class="mc">';
+  h += '<div class="mc-label">'+t[mkey]+'</div>';
+  h += '<div class="mc-grain">'+grainName+' '+grainAmt+'г</div>';
+  h += '<div class="prow">';
+  h += '<span class="pb '+meal.pt+'">'+t[meal.pt]+'</span>';
+  h += '<div><div class="pname">'+meal[lang]+'</div><div class="pamt">'+meal.amt+'</div></div>';
+  h += '</div>';
+  h += '<div class="mc-dress">'+t.dressTxt+' '+meal.dr+'</div>';
+  h += '<div class="mc-fat">+ '+fatNote(mkey, meal.fat)+'</div>';
+  h += '<div class="mc-macro">'+t[mkey+'Macro']+'</div>';
+  h += '</div>';
+  return h;
 }
 
-function dayCarbs(base){
-  var mpd = mealsCount / 7;
-  var scaled = Math.round(base * mpd / 3 / 5) * 5;
-  return '~' + scaled + 'г';
-}
-
-function goShop(filt){
-  shopFilter = filt;
-  showTab('shop');
-  renderShop();
-}
-
-function renderSched(){
-  var t = T[L];
-  var dr = L==='ru' ? drRU : drDE;
-  var f = factor();
+/* ── render schedule ── */
+function renderSched() {
+  var t = T[lang];
   var h = '';
 
-  // Banner if not 21
-  if(mealsCount < 21){
-    h += '<div class="scale-banner">'+esc(t.scaleBanner.replace('{n}', mealsCount))+'</div>';
-  }
+  // daily macro card
+  h += '<div class="card">';
+  h += '<div class="card-title">'+t.daily+'</div>';
+  h += '<div class="macro-row" style="margin-top:6px">';
+  h += '<span class="mchip" style="background:var(--grn-l);color:var(--grn-t)">'+t.trainLabel+': '+t.trainMacro+'</span>';
+  h += '<span class="mchip">'+t.restLabel+': '+t.restMacro+'</span>';
+  h += '</div>';
+  h += '<div class="macro-row" style="margin-top:4px">';
+  ['b','l','snack','d'].forEach(function(k){
+    h += '<span class="mchip">'+t[k]+': '+t[k+'Macro']+'</span>';
+  });
+  h += '</div></div>';
 
   // Saturday prep card
-  h += '<div class="card"><div class="ph"><span class="ph-ico">🛒</span><div><div class="ph-day">'+esc(t.satDay)+'</div><div class="ph-sub">'+esc(t.satSub)+'</div></div></div>';
-  h += '<div class="pb"><div class="ps-step" style="color:var(--amb);font-weight:600">⚠️ '+esc(t.satNote)+'</div>';
-  h += '<button class="shop-link-btn" onclick="goShop(\'sat\')">'+esc(t.goShopSat)+'</button></div></div>';
+  h += '<div class="prep-card">';
+  h += '<div class="card-title">'+t.satDay+'</div>';
+  h += '<div class="card-sub">'+t.satSub+'</div>';
+  h += '<ul class="prep-steps">';
+  t.satSteps.forEach(function(s){h+='<li>'+s+'</li>';});
+  h += '</ul>';
+  h += '<button class="shop-link-btn" onclick="jumpShop(\'sat\')">'+t.goSat+'</button>';
+  h += '</div>';
 
   // Sunday prep card
-  h += '<div class="card"><div class="ph"><span class="ph-ico">🍳</span><div><div class="ph-day">'+esc(t.sunDay)+'</div><div class="ph-sub">'+esc(t.sunSub)+'</div></div></div>';
-  h += '<div class="pb"><div class="ps-title">'+esc(t.aft)+'</div>';
-  t.sunSteps.forEach(function(s){ h += '<div class="ps-step">'+esc(s)+'</div>'; });
-  h += '</div></div>';
+  h += '<div class="prep-card">';
+  h += '<div class="card-title">'+t.sunDay+'</div>';
+  h += '<div class="card-sub">'+t.sunSub+'</div>';
+  h += '<ul class="prep-steps">';
+  t.sunSteps.forEach(function(s){h+='<li>'+s+'</li>';});
+  h += '</ul></div>';
 
-  var mls = [t.b, t.l, t.d];
-  var indices = mealIndices();
-  var gridClass = 'meals g' + indices.length;
+  // day cards
+  plan.forEach(function(day, idx) {
+    var g = day.grain;
+    var v = day.veg;
+    var m = day.meals;
 
-  plan.forEach(function(day, idx){
-    // Wednesday cook card before Wednesday day card
-    if(idx === 2){
-      h += '<div class="card"><div class="ph"><span class="ph-ico">🛒🍳</span><div><div class="ph-day">'+esc(t.wedDay)+'</div><div class="ph-sub">'+esc(t.wedSub)+'</div></div></div>';
-      h += '<div class="pb"><div class="ps-step" style="font-weight:700;color:var(--amb);font-size:14px">'+esc(t.wedBuy)+'</div>';
-      h += '<button class="shop-link-btn" onclick="goShop(\'wed\')" style="margin-top:10px">'+esc(t.goShopWed)+'</button>';
-      h += '<div class="ps-title">'+esc(t.wedCook)+'</div>';
-      t.wedSteps.forEach(function(s){ h += '<div class="ps-step">'+esc(s)+'</div>'; });
-      h += '</div></div>';
+    // Wednesday prep card before Wed day card
+    if (idx === 2) {
+      h += '<div class="prep-card">';
+      h += '<div class="card-title">'+t.wedDay+'</div>';
+      h += '<div class="card-sub">'+t.wedSub+'</div>';
+      h += '<div class="prep-buy">'+t.wedBuyLbl+'</div>';
+      h += '<ul class="prep-steps">';
+      t.wedBuy.forEach(function(s){h+='<li>🛒 '+s+'</li>';});
+      h += '</ul>';
+      h += '<div class="prep-buy" style="margin-top:6px">'+t.wedCookLbl+'</div>';
+      h += '<ul class="prep-steps">';
+      t.wedSteps.forEach(function(s){h+='<li>'+s+'</li>';});
+      h += '</ul>';
+      h += '<button class="shop-link-btn" onclick="jumpShop(\'wed\')">'+t.goWed+'</button>';
+      h += '</div>';
     }
 
-    h += '<div class="card">';
-    h += '<div class="dh"><span class="dh-name">'+esc(day.day[L])+'</span><span class="dh-carbs">'+esc(dayCarbs(day.carbs))+' '+esc(t.carbsLabel)+'</span></div>';
-    var note = t.pnotes[day.pk];
-    if(note) h += '<div class="dh-note">'+esc(note)+'</div>';
-    h += '<div class="'+gridClass+'">';
+    var gn = g[lang];
 
-    indices.forEach(function(mi){
-      var m = day.meals[mi];
-      var baseN = L==='ru' ? m[0] : m[1];
-      var protN = L==='ru' ? m[3] : m[4];
-      var gN    = L==='ru' ? m[6] : m[7];
-      var vN    = L==='ru' ? m[8] : m[9];
-      var topN  = L==='ru' ? m[11] : m[12];
-      h += '<div class="mc">';
-      h += '<div class="m-lbl">'+esc(mls[mi])+'</div>';
-      h += '<div class="m-base">'+esc(baseN)+' <span style="font-weight:400;color:var(--c3)">'+esc(m[2])+'</span></div>';
-      h += '<div class="m-prot-row"><span class="m-prot '+m[5]+'">'+esc(protN)+'</span><span class="m-prot-amt">'+esc(m[13])+'</span></div>';
-      h += '<div class="m-det">'+esc(gN)+'<br>'+esc(vN)+'</div>';
-      h += '<div class="m-dr">D'+m[10]+' · '+esc(topN)+'</div>';
+    h += '<div class="day-card">';
+
+    // day header
+    h += '<div class="day-hdr">';
+    h += '<div class="day-name">'+day.day[lang]+'</div>';
+    h += '<div class="grain-line"><b>'+gn+'</b> &mdash; '+t.grainCook+' '+g.total+'г&ensp;';
+    h += '<span style="color:var(--c3)">'+t.sB+':'+g.b+'г&thinsp;·&thinsp;'+t.sL+':'+g.l+'г&thinsp;·&thinsp;'+t.sD+':'+g.d+'г</span></div>';
+    h += '<div class="veg-row">';
+    h += '<span class="vbadge">'+v.g[lang]+'</span>';
+    h += '<span class="vbadge">'+v.v1[lang]+'</span>';
+    h += '<span class="vbadge">'+v.v2[lang]+'</span>';
+    h += '</div>';
+    h += '<div class="thaw-note">'+day.thaw[lang]+'</div>';
+    h += '</div>';
+
+    // meals 2×2 grid
+    h += '<div class="meals-grid">';
+    h += mealCell('b', m.b, gn, g.b, t);
+    h += mealCell('l', m.l, gn, g.l, t);
+    // snack — only on training days (wed + sun)
+    var isTraining = (day.pk === 'wed' || day.pk === 'sun');
+    if (isTraining) {
+      h += '<div class="mc snack-mc">';
+      h += '<div class="mc-label">'+t.snack+' 🏋️</div>';
+      h += '<div class="snack-body">'+t.snackL1+'<br>'+t.snackL2+'</div>';
+      h += '<div class="mc-macro">'+t.snackMacro+'</div>';
       h += '</div>';
-    });
+    } else {
+      h += '<div class="mc rest-mc">';
+      h += '<div class="mc-label">'+t.snack+'</div>';
+      h += '<div class="rest-note">'+t.restNote+'</div>';
+      h += '<div class="mc-macro">—</div>';
+      h += '</div>';
+    }
+    h += mealCell('d', m.d, gn, g.d, t);
+    h += '</div>'; // meals-grid
 
-    h += '</div></div>';
+    h += '</div>'; // day-card
   });
 
-  // Dressings
-  h += '<div style="margin-top:4px"><button class="dr-toggle-btn" onclick="toggleDr()"><span>'+esc(t.drtitle)+'</span><span style="font-size:13px;color:var(--c3)" id="dr-arr">▸</span></button>';
-  h += '<div class="dr-body" id="dr-body">';
-  dr.forEach(function(r){ h += '<div class="dr-row"><span class="dr-n">'+esc(r[0])+'</span><span class="dr-txt">'+esc(r[1])+'</span></div>'; });
-  h += '</div></div>';
+  // Dressings collapsible
+  h += '<div class="coll-wrap">';
+  h += '<div class="coll-hdr" onclick="toggleColl(\'dr\')">';
+  h += '<span class="coll-title">'+t.drtitle+'</span>';
+  h += '<span class="coll-arr" id="arr-dr">▾</span>';
+  h += '</div>';
+  h += '<div class="coll-body" id="body-dr">';
+  h += '<div class="dress-grid">';
+  t.dresses.forEach(function(d){
+    h += '<div class="dcard"><div class="did">'+d.id+'</div><div class="dtext">'+d.t+'</div></div>';
+  });
+  h += '</div></div></div>';
 
-  document.getElementById('view-sched').innerHTML = h;
+  // Fat guide collapsible
+  h += '<div class="coll-wrap">';
+  h += '<div class="coll-hdr" onclick="toggleColl(\'fat\')">';
+  h += '<span class="coll-title">'+t.fatTitle+'</span>';
+  h += '<span class="coll-arr" id="arr-fat">▾</span>';
+  h += '</div>';
+  h += '<div class="coll-body" id="body-fat">';
+  h += '<div class="fat-lines">';
+  h += '<p>'+t.fatFatty+'</p>';
+  h += '<p>'+t.fatLeanB+'</p>';
+  h += '<p>'+t.fatLeanLD+'</p>';
+  h += '</div></div></div>';
+
+  document.getElementById('view-s').innerHTML = h;
 }
 
-function toggleDr(){
-  var b = document.getElementById('dr-body');
-  var a = document.getElementById('dr-arr');
-  b.classList.toggle('on');
-  a.textContent = b.classList.contains('on') ? '▾' : '▸';
-}
+/* ── render shopping ── */
+function renderShop() {
+  var t = T[lang];
+  var items = shopData.filter(function(i){
+    return shopFilter==='all' || i[5]===shopFilter;
+  });
+  var total = items.length;
+  var done = items.filter(function(i){return !!chk[i[0]];}).length;
 
-function renderShop(){
-  var t = T[L];
-  var filt = shopFilter;
-  var f = factor();
-  var visible = shopData.filter(function(it){ return filt==='all' || it[5]===filt; });
-  var done = visible.filter(function(it){ return checked[it[0]]; }).length;
-
-  var h = '<div class="shop-top">';
-  h += '<div class="shop-filter">';
-  h += '<button class="sf-btn'+(filt==='all'?' on':'')+'" onclick="setFilt(\'all\')">'+esc(t.all)+'</button>';
-  h += '<button class="sf-btn'+(filt==='sat'?' on':'')+'" onclick="setFilt(\'sat\')">'+esc(t.sat)+'</button>';
-  h += '<button class="sf-btn'+(filt==='wed'?' on':'')+'" onclick="setFilt(\'wed\')">'+esc(t.wed)+'</button>';
+  var h = '';
+  h += '<div class="shop-bar">';
+  ['all','sat','wed'].forEach(function(f){
+    h += '<button class="fbtn'+(shopFilter===f?' on':'')+'" onclick="setFilter(\''+f+'\')">'+t[f]+'</button>';
+  });
+  h += '<button class="rst-btn" onclick="resetChk()">'+t.reset+'</button>';
   h += '</div>';
-  h += '<div class="shop-foot"><span class="shop-prog">'+done+' / '+visible.length+' '+esc(t.bought)+'</span>';
-  h += '<button class="shop-reset" onclick="resetChecked()">'+esc(t.reset)+'</button></div>';
-  h += '</div>';
+  h += '<div class="prog" id="prog">'+done+' / '+total+' '+t.bought+'</div>';
 
-  if(mealsCount < 21 && filt !== 'wed'){
-    h += '<div class="scale-banner">'+esc(t.scaleBanner.replace('{n}', mealsCount))+'</div>';
-  }
-
-  catOrder.forEach(function(cat){
-    var items = shopData.filter(function(it){ return it[1]===cat && (filt==='all' || it[5]===filt); });
-    if(!items.length) return;
-    h += '<div class="scat"><div class="scat-h">'+esc(t[catKey[cat]])+'</div><div class="slist">';
-    items.forEach(function(it){
-      var id=it[0], qty_obj=getQty(it), day=it[5], link=it[6];
-      var noteRU=it[7], noteDE=it[8];
-      var note = L==='ru' ? noteRU : noteDE;
-      var isDone = !!checked[id];
-      var mainName = L==='ru' ? it[2] : it[3];
-      var subName  = L==='ru' ? it[3] : it[2];
-      h += '<div class="si'+(isDone?' done':'')+'" onclick="toggleItem(\''+id+'\')">';
-      h += '<div class="si-cb"><span class="si-tick">✓</span></div>';
-      h += '<div class="si-info"><div class="si-name">'+esc(mainName)+'</div>';
-      h += '<div class="si-de">'+esc(subName)+'</div>';
-      if(note) h += '<div class="si-note">'+esc(note)+'</div>';
-      if(day==='wed') h += '<span class="wed-tag">'+(L==='ru'?'⚠️ Среда':'⚠️ Mittwoch')+'</span>';
-      h += '</div>';
-      h += '<div class="si-r"><div class="si-qty">'+esc(qty_obj.main)+'</div>';
-      if(qty_obj.sub) h += '<div class="si-qty-scaled">'+esc(qty_obj.sub)+'</div>';
-      if(link) h += '<a class="si-lnk" href="'+link+'" onclick="event.stopPropagation()" target="_blank">REWE →</a>';
+  catOrder.forEach(function(cat) {
+    var ci = items.filter(function(i){return i[1]===cat;});
+    if (!ci.length) return;
+    h += '<div class="cat-lbl">'+t[catKey[cat]]+'</div>';
+    ci.forEach(function(item) {
+      var id=item[0], isDone=!!chk[id];
+      var name = lang==='ru' ? item[2] : item[3];
+      var note = lang==='ru' ? item[7] : item[8];
+      h += '<div class="si'+(isDone?' done':'')+'" id="si-'+id+'">';
+      h += '<input type="checkbox" '+(isDone?'checked':'')+' onchange="togChk(\''+id+'\')">';
+      h += '<div class="si-body">';
+      h += '<div class="si-name">'+name+'</div>';
+      h += '<div class="si-qty">'+item[4]+'</div>';
+      if (note) h += '<div class="si-note">'+note+'</div>';
+      h += '<a class="si-link" href="'+item[6]+'" target="_blank">REWE →</a>';
       h += '</div></div>';
     });
-    h += '</div></div>';
   });
 
-  document.getElementById('view-shop').innerHTML = h;
+  document.getElementById('view-h').innerHTML = h;
 }
 
-function toggleItem(id){
-  checked[id] = !checked[id];
-  localStorage.setItem('bowl-checked', JSON.stringify(checked));
-  renderShop();
+/* ── UI helpers ── */
+function switchTab(tab) {
+  var isSched = tab === 's';
+  document.getElementById('view-s').classList.toggle('on', isSched);
+  document.getElementById('view-h').classList.toggle('on', !isSched);
+  document.getElementById('tab-s').classList.toggle('on', isSched);
+  document.getElementById('tab-h').classList.toggle('on', !isSched);
+  document.getElementById('tab-s').textContent = T[lang].sched;
+  document.getElementById('tab-h').textContent = T[lang].shop;
+  if (!isSched) renderShop();
 }
 
-function resetChecked(){
-  checked = {};
-  localStorage.setItem('bowl-checked', JSON.stringify(checked));
-  renderShop();
+function toggleLang() {
+  lang = lang==='ru' ? 'de' : 'ru';
+  localStorage.setItem('bowl-lang', lang);
+  document.getElementById('lang-btn').textContent = lang==='ru' ? 'DE' : 'RU';
+  document.getElementById('app-title').textContent = T[lang].appTitle;
+  document.getElementById('tab-s').textContent = T[lang].sched;
+  document.getElementById('tab-h').textContent = T[lang].shop;
+  var isShop = document.getElementById('view-h').classList.contains('on');
+  if (isShop) renderShop(); else renderSched();
 }
 
-function setFilt(f){
+function setFilter(f) {
   shopFilter = f;
   renderShop();
 }
 
-function showTab(name){
-  document.getElementById('view-sched').className = 'view'+(name==='sched'?' on':'');
-  document.getElementById('view-shop').className  = 'view'+(name==='shop'?' on':'');
-  document.getElementById('tab-sched').className  = 'tab'+(name==='sched'?' on':'');
-  document.getElementById('tab-shop').className   = 'tab'+(name==='shop'?' on':'');
-}
-
-function setMeals(n){
-  mealsCount = n;
-  localStorage.setItem('bowl-meals', n);
-  document.getElementById('mb7').className  = 'sw-btn'+(n===7?' on':'');
-  document.getElementById('mb14').className = 'sw-btn'+(n===14?' on':'');
-  document.getElementById('mb21').className = 'sw-btn'+(n===21?' on':'');
-  renderSched();
+function resetChk() {
+  chk = {};
+  localStorage.setItem('bowl-chk', '{}');
   renderShop();
 }
 
-function setLang(l){
-  L = l;
-  localStorage.setItem('bowl-lang', l);
-  document.getElementById('lb-ru').className = 'sw-btn'+(l==='ru'?' on':'');
-  document.getElementById('lb-de').className = 'sw-btn'+(l==='de'?' on':'');
-  document.getElementById('app-title').textContent = T[l].title;
-  document.getElementById('tab-sched').textContent = T[l].sched;
-  document.getElementById('tab-shop').textContent  = T[l].shop;
-  document.getElementById('ml-label').textContent  = T[l].mealslbl;
-  document.documentElement.lang = l;
-  renderSched();
-  renderShop();
+function togChk(id) {
+  chk[id] = !chk[id];
+  if (!chk[id]) delete chk[id];
+  localStorage.setItem('bowl-chk', JSON.stringify(chk));
+  var el = document.getElementById('si-'+id);
+  if (el) el.classList.toggle('done', !!chk[id]);
+  // update progress
+  var items = shopData.filter(function(i){return shopFilter==='all'||i[5]===shopFilter;});
+  var done = items.filter(function(i){return !!chk[i[0]];}).length;
+  var p = document.getElementById('prog');
+  if (p) p.textContent = done+' / '+items.length+' '+T[lang].bought;
 }
 
-// Init
-document.getElementById('lb-ru').className = 'sw-btn'+(L==='ru'?' on':'');
-document.getElementById('lb-de').className = 'sw-btn'+(L==='de'?' on':'');
-document.getElementById('mb7').className   = 'sw-btn'+(mealsCount===7?' on':'');
-document.getElementById('mb14').className  = 'sw-btn'+(mealsCount===14?' on':'');
-document.getElementById('mb21').className  = 'sw-btn'+(mealsCount===21?' on':'');
-document.getElementById('app-title').textContent = T[L].title;
-document.getElementById('tab-sched').textContent = T[L].sched;
-document.getElementById('tab-shop').textContent  = T[L].shop;
-document.getElementById('ml-label').textContent  = T[L].mealslbl;
-document.documentElement.lang = L;
+function jumpShop(filter) {
+  shopFilter = filter;
+  switchTab('h');
+}
+
+function toggleColl(id) {
+  var body = document.getElementById('body-'+id);
+  var arr = document.getElementById('arr-'+id);
+  var isOpen = body.classList.toggle('open');
+  arr.classList.toggle('open', isOpen);
+}
+
+/* ── init ── */
+document.getElementById('lang-btn').textContent = lang==='ru' ? 'DE' : 'RU';
+document.getElementById('app-title').textContent = T[lang].appTitle;
+document.getElementById('tab-s').textContent = T[lang].sched;
+document.getElementById('tab-h').textContent = T[lang].shop;
 renderSched();
-renderShop();
 </script>
 </body>
 </html>
